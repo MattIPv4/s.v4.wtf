@@ -25,6 +25,8 @@ const getRedirects = async () => {
 
 const getTemplate = () => promises.readFile('templates/redirect.html', 'utf8');
 
+const get404 = () => promises.readFile('templates/404.html', 'utf8');
+
 const cleanOutput = () => promises.rmdir('out', { recursive: true });
 
 const generateRedirect = (template, redirect) => {
@@ -43,6 +45,11 @@ const writeRedirect = async (source, path) => {
     await promises.writeFile(join('out', path, 'index.html'), source);
 };
 
+const write404 = async (source) => {
+    await promises.mkdir('out', { recursive: true });
+    await promises.writeFile(join('out', '404.html'), source);
+};
+
 const main = async () => {
     const template = await getTemplate();
     const redirects = await getRedirects();
@@ -55,7 +62,9 @@ const main = async () => {
         await writeRedirect(source, name);
     }
 
-    // TODO: Fallback 404 with routing logic
+    const template404 = await get404();
+    const source404 = generateRedirect(template404, { map: JSON.stringify(redirects) });
+    await write404(source404);
 };
 
 main().then(() => console.log('Generated'));

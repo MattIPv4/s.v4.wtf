@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<meta charset="utf-8">
+<title>Redirecting...</title>
+<script>
+    (function () {
+        var map = {{ map }};
+        var uri = window.location.pathname.trim().replace(/\/+$/, '').replace(/^\/+/, '').trim().toLowerCase();
+        var closest = '';
+
+        function redirect (key) {
+            // Generate target, appending extra path without double slash
+            var target = map[key].target;
+            var ext = uri.substr(key.length);
+            if (ext[0] === '/' && target[target.length - 1] === '/') {
+                ext = ext.substr(1);
+            }
+
+            // Do the redirect
+            window.location = target + ext;
+            var a = document.createElement('a');
+            a.href = target + ext;
+            a.innerHTML = 'Click here if you are not redirected.';
+            document.body.appendChild(a);
+        }
+
+        for (var key in map) {
+            if (!Object.prototype.hasOwnProperty.call(map, key)) continue;
+
+            // Exact match
+            if (key.toLowerCase() === uri) {
+                return redirect(key);
+            }
+
+            // Starts with
+            if (uri.indexOf(key.toLowerCase()) === 0) {
+                if (key.length > closest.length) {
+                    closest = key;
+                }
+            }
+        }
+
+        // Closest (starts with) match
+        if (closest.length) {
+            return redirect(closest);
+        }
+
+        // TODO: Render 404
+    })();
+</script>
+<meta http-equiv="refresh" content="0; url={{ target }}">
+<meta name="robots" content="noindex">
+<h1>Redirecting...</h1>
+</html>
