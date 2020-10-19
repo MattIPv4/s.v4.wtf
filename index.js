@@ -25,6 +25,8 @@ const getRedirects = async () => {
 
 const getTemplate = () => promises.readFile('templates/redirect.html', 'utf8');
 
+const cleanOutput = () => promises.rmdir('out', { recursive: true });
+
 const generateRedirect = (template, redirect) => {
     // Generate a map of {{ key }} => value
     const map = Object.fromEntries(Object.entries(redirect).map(([key, value]) => ([`{{ ${key} }}`, value])));
@@ -44,6 +46,8 @@ const writeRedirect = async (source, path) => {
 const main = async () => {
     const template = await getTemplate();
     const redirects = await getRedirects();
+
+    await cleanOutput();
 
     // Generate file for each redirect route
     for (const [name, data] of Object.entries(redirects)) {
