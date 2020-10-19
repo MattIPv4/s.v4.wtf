@@ -1,0 +1,25 @@
+{
+  "name": "go",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattIPv4/go.git"
+  },
+  "author": "Matt (IPv4) Cowley",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/MattIPv4/go/issues"
+  },
+  "homepage": "https://github.com/MattIPv4/go#readme",
+  "devDependencies": {
+    "fast-glob": "^3.2.4",
+    "replace-map": "^1.0.1"
+  }
+}
