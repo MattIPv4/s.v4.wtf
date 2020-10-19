@@ -5,7 +5,7 @@
 <script>
     (function () {
         var map = {{ map }};
-        var uri = window.location.pathname.trim().replace(/\/+$/, '').replace(/^\/+/, '').trim().toLowerCase();
+        var uri = window.location.pathname.replace(/[\/\s]+$/, '').replace(/^[\/\s]+/, '').toLowerCase();
         var closest = '';
 
         function redirect (key) {
@@ -25,7 +25,9 @@
         }
 
         for (var key in map) {
-            if (!Object.prototype.hasOwnProperty.call(map, key)) continue;
+            if (!Object.prototype.hasOwnProperty.call(map, key)) {
+                continue;
+            }
 
             // Exact match
             if (key.toLowerCase() === uri) {
