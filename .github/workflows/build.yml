@@ -1,0 +1,35 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.18.1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate redirects
+        run: npm start
+
+      - name: Deploy to Pages
+        uses: JamesIves/github-pages-deploy-action@2.0.0
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          CNAME: go.mattcowley.co.uk
+          BASE_BRANCH: master
+          BRANCH: gh-pages
+          FOLDER: out
