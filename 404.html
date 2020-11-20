@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<meta charset="utf-8">
+<title>Redirecting...</title>
+<script>
+    (function () {
+        var map = {"_index":{"target":"https://mattcowley.co.uk"},"github":{"target":"https://github.com/MattIPv4"},"twitch":{"target":"https://twitch.tv/MattIPv4"},"github/sponsors":{"target":"https://github.com/sponsors/MattIPv4"}};
+        var uri = window.location.pathname.replace(/[\/\s]+$/, '').replace(/^[\/\s]+/, '').toLowerCase();
+        var closest = '';
+
+        function redirect (key) {
+            // Generate target, appending extra path without double slash
+            var target = map[key].target;
+            var ext = uri.substr((key === '_index' ? '' : key).length);
+            if (ext[0] === '/') ext = ext.substr(1);
+            if (target[target.length - 1] !== '/') target += '/';
+
+            // Do the redirect
+            window.location = target + ext;
+            var a = document.createElement('a');
+            a.href = target + ext;
+            a.innerHTML = 'Click here if you are not redirected.';
+            document.body.appendChild(a);
+        }
+
+        for (var key in map) {
+            if (!Object.prototype.hasOwnProperty.call(map, key)) {
+                continue;
+            }
+
+            // Root key handling
+            const realKey = key === '_index' ? '' : key;
+
+            // Exact match
+            if (realKey.toLowerCase() === uri) {
+                return redirect(key);
+            }
+
+            // Starts with
+            if (uri.indexOf(realKey.toLowerCase()) === 0) {
+                if (closest.length === 0 || realKey.length > closest.length) {
+                    closest = key;
+                }
+            }
+        }
+
+        // Closest (starts with) match
+        if (closest.length) {
+            return redirect(closest);
+        }
+
+        // TODO: Render 404
+    })();
+</script>
+<meta name="robots" content="noindex">
+<h1>Redirecting...</h1>
+</html>
