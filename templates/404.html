@@ -11,7 +11,7 @@
         function redirect (key) {
             // Generate target, appending extra path without double slash
             var target = map[key].target;
-            var ext = uri.substr(key.length);
+            var ext = uri.substr((key === '_index' ? '' : key).length);
             if (ext[0] === '/' && target[target.length - 1] === '/') {
                 ext = ext.substr(1);
             }
@@ -29,14 +29,17 @@
                 continue;
             }
 
+            // Root key handling
+            const realKey = key === '_index' ? '' : key;
+
             // Exact match
-            if (key.toLowerCase() === uri) {
+            if (realKey.toLowerCase() === uri) {
                 return redirect(key);
             }
 
             // Starts with
-            if (uri.indexOf(key.toLowerCase()) === 0) {
-                if (key.length > closest.length) {
+            if (uri.indexOf(realKey.toLowerCase()) === 0) {
+                if (realKey.length > closest.length) {
                     closest = key;
                 }
             }

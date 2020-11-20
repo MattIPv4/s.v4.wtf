@@ -38,6 +38,9 @@ const generateRedirect = (template, redirect) => {
 };
 
 const writeRedirect = async (source, path) => {
+    // Root key handling
+    if (path === '_index') path = '';
+
     // Create the full directory
     await promises.mkdir(join('out', path), { recursive: true });
 
