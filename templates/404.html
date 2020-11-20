@@ -12,9 +12,8 @@
             // Generate target, appending extra path without double slash
             var target = map[key].target;
             var ext = uri.substr((key === '_index' ? '' : key).length);
-            if (ext[0] === '/' && target[target.length - 1] === '/') {
-                ext = ext.substr(1);
-            }
+            if (ext[0] === '/') ext = ext.substr(1);
+            if (target[target.length - 1] !== '/') target += '/';
 
             // Do the redirect
             window.location = target + ext;
