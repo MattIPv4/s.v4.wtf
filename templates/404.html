@@ -39,7 +39,7 @@
 
             // Starts with
             if (uri.indexOf(realKey.toLowerCase()) === 0) {
-                if (realKey.length > closest.length) {
+                if (closest.length === 0 || realKey.length > closest.length) {
                     closest = key;
                 }
             }
